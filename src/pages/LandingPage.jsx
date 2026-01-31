@@ -38,9 +38,9 @@ export default function LandingPage() {
       <div className="max-w-4xl px-4 animate-in slide-in-from-bottom-8 fade-in duration-1000">
         <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-cosmos-900/30 border border-cosmos-500/20 text-cosmos-300 text-xs font-mono mb-8 backdrop-blur-md">
             <span className={`w-2 h-2 rounded-full ${isLive ? 'bg-green-400' : 'bg-red-400'} animate-pulse`}></span>
-            <span className="tracking-widest uppercase">
+            {/* <span className="tracking-widest uppercase">
                 {isLive ? 'SYSTEM OPERATIONAL' : 'OFFLINE SIMULATION'}
-            </span>
+            </span> */}
         </div>
         
         <h1 className="text-5xl md:text-7xl font-orbitron font-bold text-white mb-6 tracking-tight leading-tight">
