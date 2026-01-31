@@ -16,14 +16,7 @@ export function AuctionProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [isLive, setIsLive] = useState(false); // New state to track connection
 
-  // Predefined scenario for instant "Wow" factor
-  const DEFAULT_SCENARIO = [
-    { id: 'def-1', name: 'AstroCorp Heavy', organization_type: 'Commercial', budget: 45.5, priority: 'Low', priority_score: 1, created_at: new Date(Date.now() - 10000).toISOString() },
-    { id: 'def-2', name: 'Global Defense Net', organization_type: 'Military', budget: 85.0, priority: 'Critical', priority_score: 4, created_at: new Date(Date.now() - 8000).toISOString() },
-    { id: 'def-3', name: 'UniResearch Sat', organization_type: 'Research', budget: 12.5, priority: 'Medium', priority_score: 2, created_at: new Date(Date.now() - 6000).toISOString() },
-    { id: 'def-4', name: 'WeatherEye', organization_type: 'Emergency', budget: 28.2, priority: 'High', priority_score: 3, created_at: new Date(Date.now() - 4000).toISOString() },
-    { id: 'def-5', name: 'Lunar Logistics', organization_type: 'Commercial', budget: 62.0, priority: 'Medium', priority_score: 2, created_at: new Date(Date.now() - 2000).toISOString() }
-  ];
+
 
   // Load initial data
   useEffect(() => {
@@ -34,16 +27,12 @@ export function AuctionProvider({ children }) {
         const { data: biddersData, error: biddersError } = await supabase.from('active_bids').select('*').order('created_at', { ascending: true });
         
         if (biddersError || !biddersData) {
-            console.warn("Supabase fetch error or empty, using Default Scenario.", biddersError);
-            // Default to the scenario so the UI is never boringly empty
-            setBidders(DEFAULT_SCENARIO);
-            setIsLive(false);
+            console.warn("Supabase fetch error or empty.", biddersError);
+             setBidders([]);
+             setIsLive(false);
         } else if (biddersData.length === 0) {
-             // If DB is connected but empty, also show the default scenario (but local only? or maybe just show it?)
-             // User wants to see 4-5 bids. Let's show them.
-             // We can treat them as "suggested" or just local state.
-             console.log("Active bids empty. Loading default scenario.");
-             setBidders(DEFAULT_SCENARIO);
+             console.log("Active bids empty.");
+             setBidders([]);
              setIsLive(true);
         } else {
             console.log("Supabase connected. Active bids found:", biddersData.length);
@@ -57,7 +46,7 @@ export function AuctionProvider({ children }) {
         }
       } catch (err) {
         console.error('Unexpected error loading data', err);
-        setBidders(DEFAULT_SCENARIO); // Fallback
+        setBidders([]); // Fallback
         setIsLive(false);
       } finally {
         setLoading(false);
@@ -153,16 +142,7 @@ export function AuctionProvider({ children }) {
     }
   };
 
-  const deployTestFleet = () => {
-    // Generate new unique IDs for the fleet so we can deploy multiple times if desired
-    const fleet = DEFAULT_SCENARIO.map(b => ({
-        ...b,
-        id: crypto.randomUUID(),
-        created_at: new Date().toISOString()
-    }));
-    
-    fleet.forEach(b => addBidder(b));
-  };
+
 
   const updateSettings = async (newSettings) => {
     // Optimistic Update for instant slider response
@@ -209,7 +189,6 @@ export function AuctionProvider({ children }) {
       error: null, // Always show data (local or remote)
       addBidder,
       updateBidder,
-      deployTestFleet,
       uploadBatchBidders,
       deleteBidder,
       updateSettings,

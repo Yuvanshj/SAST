@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Spline from '@splinetool/react-spline';
+import BackgroundVideo from '../assets/homepage-background.mp4';
 import { Rocket, Star, Globe } from 'lucide-react';
 import { useAuction } from '../stores/auctionStore';
 
@@ -14,9 +14,15 @@ export default function Layout({ children }) {
   return (
     <div className="min-h-screen text-space-400 font-inter selection:bg-cosmos-500 selection:text-white overflow-x-hidden relative">
       {/* Dynamic Background */}
-      <div className="fixed inset-0 z-0 bg-space-950 pointer-events-none blur-[3px]">
-        <Spline scene="https://prod.spline.design/drb3fueGNqaQWVLB/scene.splinecode" />
-      </div>
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="fixed inset-0 z-0 w-full h-full object-cover pointer-events-none opacity-40 brightness-75"
+      >
+        <source src={BackgroundVideo} type="video/mp4" />
+      </video>
 
       {/* Header */}
       <header className="relative z-[60] border-b border-white/5 bg-space-950/70 backdrop-blur-md sticky top-0 shadow-lg">
