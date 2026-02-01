@@ -5,7 +5,7 @@ import { Plus, Trash2, User, Wallet, Activity, Pencil, Rocket, Save, X } from 'l
 import clsx from 'clsx';
 
 export default function BiddingInterface() {
-  const { bidders, addBidder, updateBidder, deleteBidder } = useAuction();
+  const { bidders, addBidder, updateBidder, deleteBidder, deployTestFleet } = useAuction();
   
   const [newOrg, setNewOrg] = useState('');
   const [newBudget, setNewBudget] = useState('');
@@ -74,6 +74,13 @@ export default function BiddingInterface() {
                 <h2 className="font-orbitron text-lg font-semibold tracking-wide">Active Bidders</h2>
                 </div>
                 <div className="flex items-center gap-3">
+                    <button 
+                        onClick={deployTestFleet}
+                        className="p-1.5 rounded-lg bg-space-800 text-cosmos-400 hover:bg-cosmos-600 hover:text-white transition-colors"
+                        title="Deploy Dummy Missions"
+                    >
+                        <Rocket className="w-4 h-4" />
+                    </button>
                     <span className="text-xs font-mono bg-space-950 px-2 py-1 rounded text-cosmos-300 border border-cosmos-500/20">
                         {bidders.length} ORGS
                     </span>
